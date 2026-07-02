@@ -1,0 +1,42 @@
+# Compiled output
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven/Gradle
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+.gradle/
+build/
+gradle-app.setting
+!gradle-wrapper.jar
+
+# Environment & secrets
+.env
+application-local.properties
+application-local.yml
+*.p12
+*.jks
+*.keystore
+
+# Logs
+logs/
+*.log
+spring.log
+
+# IDE
+.idea/
+*.iml
+*.iws
+.classpath
+.project
+.settings/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
