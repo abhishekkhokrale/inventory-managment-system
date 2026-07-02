@@ -32,7 +32,7 @@ export default function WasteAnalysisChart({ data }: Props) {
             </Pie>
             <Tooltip
               contentStyle={{ borderRadius: 8, border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}
-              formatter={(val: number) => [`$${val.toFixed(2)}`, 'Value']}
+              formatter={(val: number) => [`₹${val.toFixed(2)}`, 'Value']}
             />
             <Legend />
           </PieChart>

@@ -10,4 +10,6 @@ import java.util.UUID;
 @Repository
 public interface UnitOfMeasureRepository extends JpaRepository<UnitOfMeasure, UUID> {
     Optional<UnitOfMeasure> findByAbbreviation(String abbreviation);
+
+    Optional<UnitOfMeasure> findByAbbreviationIgnoreCase(String abbreviation);
 }

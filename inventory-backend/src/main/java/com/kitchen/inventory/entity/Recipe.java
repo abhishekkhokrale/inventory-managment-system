@@ -60,7 +60,7 @@ public class Recipe extends BaseEntity {
     @Builder.Default
     private boolean published = false;
 
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Builder.Default
     private List<RecipeIngredient> ingredients = new ArrayList<>();
 }

@@ -241,7 +241,7 @@ export default function PurchaseOrderFormPage() {
                           )} />
                         </TableCell>
                         <TableCell>
-                          ${((Number(watchedItems?.[i]?.quantity) || 0) * (Number(watchedItems?.[i]?.unitPrice) || 0)).toFixed(2)}
+                          ₹{((Number(watchedItems?.[i]?.quantity) || 0) * (Number(watchedItems?.[i]?.unitPrice) || 0)).toFixed(2)}
                         </TableCell>
                         <TableCell>
                           {fields.length > 1 && (
@@ -264,12 +264,12 @@ export default function PurchaseOrderFormPage() {
                 <Typography variant="subtitle1" fontWeight={600} mb={2}>Order Summary</Typography>
                 <Box display="flex" justifyContent="space-between" mb={1}>
                   <Typography color="text.secondary">Subtotal</Typography>
-                  <Typography fontWeight={600}>${totalAmount.toFixed(2)}</Typography>
+                  <Typography fontWeight={600}>₹{totalAmount.toFixed(2)}</Typography>
                 </Box>
                 <Divider sx={{ my: 1 }} />
                 <Box display="flex" justifyContent="space-between">
                   <Typography fontWeight={700}>Total</Typography>
-                  <Typography fontWeight={700} color="primary.main">${totalAmount.toFixed(2)}</Typography>
+                  <Typography fontWeight={700} color="primary.main">₹{totalAmount.toFixed(2)}</Typography>
                 </Box>
               </CardContent>
             </Card>

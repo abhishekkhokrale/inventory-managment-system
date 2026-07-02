@@ -39,7 +39,7 @@ export default function ReportsPage() {
     doc.text(`Generated: ${dayjs().format('YYYY-MM-DD HH:mm')}`, 14, 28)
     autoTable(doc, {
       head: [['Item', 'Quantity', 'Value']],
-      body: [['Sample data', '0', '$0.00']],
+      body: [['Sample data', '0', '₹0.00']],
       startY: 35,
     })
     doc.save(`report-${activeTab}-${dayjs().format('YYYYMMDD')}.pdf`)
@@ -108,7 +108,7 @@ function StockReport({ fromDate, toDate }: { fromDate: string; toDate: string })
     { field: 'stockIn',        headerName: 'Stock In', width: 110, type: 'number' },
     { field: 'stockOut',       headerName: 'Stock Out', width: 110, type: 'number' },
     { field: 'closingStock',   headerName: 'Closing', width: 110, type: 'number' },
-    { field: 'value',          headerName: 'Value ($)', width: 120, type: 'number' },
+    { field: 'value',          headerName: 'Value (₹)', width: 120, type: 'number' },
   ]
 
   return (
@@ -139,7 +139,7 @@ function ConsumptionReport({ fromDate, toDate }: { fromDate: string; toDate: str
             <Tooltip />
             <Legend />
             <Bar dataKey="quantity" fill="#2E7D32" name="Consumption (units)" />
-            <Bar dataKey="cost" fill="#1565C0" name="Cost ($)" />
+            <Bar dataKey="cost" fill="#1565C0" name="Cost (₹)" />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>
@@ -158,7 +158,7 @@ function PurchaseReport({ fromDate, toDate }: { fromDate: string; toDate: string
     { field: 'supplier',    headerName: 'Supplier', flex: 1 },
     { field: 'orderDate',   headerName: 'Order Date', width: 120 },
     { field: 'status',      headerName: 'Status', width: 130 },
-    { field: 'totalAmount', headerName: 'Amount ($)', width: 120, type: 'number' },
+    { field: 'totalAmount', headerName: 'Amount (₹)', width: 120, type: 'number' },
   ]
 
   return (
@@ -189,7 +189,7 @@ function WasteReport({ fromDate, toDate }: { fromDate: string; toDate: string })
             <Tooltip />
             <Legend />
             <Line type="monotone" dataKey="wasteQuantity" stroke="#C62828" name="Waste (units)" strokeWidth={2} />
-            <Line type="monotone" dataKey="wasteCost" stroke="#E65100" name="Waste Cost ($)" strokeWidth={2} strokeDasharray="5 5" />
+            <Line type="monotone" dataKey="wasteCost" stroke="#E65100" name="Waste Cost (₹)" strokeWidth={2} strokeDasharray="5 5" />
           </LineChart>
         </ResponsiveContainer>
       </CardContent>
@@ -220,8 +220,8 @@ function InventoryValuation() {
     { field: 'ingredientName', headerName: 'Ingredient', flex: 1 },
     { field: 'category',       headerName: 'Category', width: 130 },
     { field: 'totalQuantity',  headerName: 'Total Qty', width: 120, type: 'number' },
-    { field: 'averageCost',    headerName: 'Avg Cost ($)', width: 120, type: 'number' },
-    { field: 'totalValue',     headerName: 'Total Value ($)', width: 140, type: 'number' },
+    { field: 'averageCost',    headerName: 'Avg Cost (₹)', width: 120, type: 'number' },
+    { field: 'totalValue',     headerName: 'Total Value (₹)', width: 140, type: 'number' },
     { field: 'valuationMethod', headerName: 'Method', width: 110 },
   ]
 

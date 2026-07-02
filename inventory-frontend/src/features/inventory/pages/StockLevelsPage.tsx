@@ -84,7 +84,7 @@ export default function StockLevelsPage() {
     { field: 'quantityReserved', headerName: 'Reserved', width: 100, type: 'number',
       valueFormatter: (val) => Number(val).toFixed(2) },
     { field: 'unitCost', headerName: 'Unit Cost', width: 100, type: 'number',
-      valueFormatter: (val) => val ? `$${Number(val).toFixed(2)}` : '-' },
+      valueFormatter: (val) => val ? `₹${Number(val).toFixed(2)}` : '-' },
     { field: 'expiryDate', headerName: 'Expiry Date', width: 120,
       renderCell: (p: GridRenderCellParams) => {
         if (!p.value) return '-'
@@ -227,7 +227,7 @@ export default function StockLevelsPage() {
               <Grid item xs={12}>
                 <Controller name="unitCost" control={control} render={({ field }) => (
                   <TextField {...field} label="Unit Cost" type="number" fullWidth
-                    InputProps={{ startAdornment: '$' }} inputProps={{ step: '0.0001', min: '0' }} />
+                    InputProps={{ startAdornment: '₹' }} inputProps={{ step: '0.0001', min: '0' }} />
                 )} />
               </Grid>
               <Grid item xs={12}>

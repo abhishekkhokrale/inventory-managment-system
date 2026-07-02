@@ -204,7 +204,7 @@ export default function IngredientFormPage() {
                   <Grid item xs={12} sm={6}>
                     <Controller name="standardCost" control={control} render={({ field }) => (
                       <TextField {...field} label="Standard Cost" fullWidth type="number"
-                        InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }} />
+                        InputProps={{ startAdornment: <InputAdornment position="start">₹</InputAdornment> }} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={6}>

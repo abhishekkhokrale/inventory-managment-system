@@ -32,7 +32,7 @@ export default function RecipesPage() {
     { field: 'preparationTimeMinutes',  headerName: 'Prep (min)', width: 100, type: 'number' },
     { field: 'cookingTimeMinutes',      headerName: 'Cook (min)', width: 100, type: 'number' },
     { field: 'costPerServing',          headerName: 'Cost/Serving', width: 120, type: 'number',
-      valueFormatter: (v) => v ? `$${Number(v).toFixed(2)}` : '-' },
+      valueFormatter: (v) => v ? `₹${Number(v).toFixed(2)}` : '-' },
     { field: 'published', headerName: 'Published', width: 100,
       renderCell: (p) => (
         <Chip label={p.value ? 'Published' : 'Draft'} size="small" color={p.value ? 'success' : 'default'} />

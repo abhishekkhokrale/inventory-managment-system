@@ -42,8 +42,8 @@ export default function PurchaseOrdersPage() {
         <Chip label={p.value?.replace('_', ' ')} size="small" color={STATUS_COLORS[p.value as PurchaseStatus] || 'default'} />
       )
     },
-    { field: 'totalAmount', headerName: 'Total ($)', width: 120, type: 'number',
-      valueFormatter: (v) => v ? `$${Number(v).toFixed(2)}` : '-' },
+    { field: 'totalAmount', headerName: 'Total (₹)', width: 120, type: 'number',
+      valueFormatter: (v) => v ? `₹${Number(v).toFixed(2)}` : '-' },
     { field: 'approvedBy', headerName: 'Approved By', width: 130, valueGetter: (_, r) => r.approvedBy?.fullName || '-' },
   ]
 

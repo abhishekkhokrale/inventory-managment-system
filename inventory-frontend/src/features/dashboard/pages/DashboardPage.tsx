@@ -52,7 +52,7 @@ export default function DashboardPage() {
         <Grid item xs={12} sm={6} md={3}>
           <KPICard
             title="Stock Value"
-            value={`$${(kpis?.totalStockValue ?? 0).toLocaleString()}`}
+            value={`₹${(kpis?.totalStockValue ?? 0).toLocaleString()}`}
             icon={<AttachMoney />}
             color="#1565C0"
             loading={kpisLoading}
@@ -99,7 +99,7 @@ export default function DashboardPage() {
         <Grid item xs={12} sm={6} md={3}>
           <KPICard
             title="Waste This Month"
-            value={`$${(kpis?.wasteThisMonth ?? 0).toLocaleString()}`}
+            value={`₹${(kpis?.wasteThisMonth ?? 0).toLocaleString()}`}
             icon={<Delete />}
             color="#AD1457"
             loading={kpisLoading}

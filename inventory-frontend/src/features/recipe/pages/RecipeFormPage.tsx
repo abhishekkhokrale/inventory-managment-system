@@ -7,7 +7,7 @@ import {
   Box, Button, TextField, Typography, Grid, Card, CardContent,
   MenuItem, CircularProgress, Breadcrumbs, Link, IconButton,
   Table, TableHead, TableRow, TableCell, TableBody, Switch,
-  FormControlLabel, Alert, InputAdornment
+  FormControlLabel, InputAdornment
 } from '@mui/material'
 import { ArrowBack, Save, Add, Delete } from '@mui/icons-material'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
@@ -15,7 +15,7 @@ import axiosInstance from '@/api/axiosInstance'
 import { useSnackbar } from 'notistack'
 
 const ingredientSchema = z.object({
-  ingredientId: z.coerce.number().min(1, 'Required'),
+  ingredientId: z.string().min(1, 'Required'),
   quantity:     z.coerce.number().min(0.001, 'Must be > 0'),
   unit:         z.string().min(1, 'Required'),
   notes:        z.string().optional(),
@@ -63,7 +63,7 @@ export default function RecipeFormPage() {
       yieldUnit: 'portion',
       preparationTimeMinutes: 0,
       cookingTimeMinutes: 0,
-      ingredients: [{ ingredientId: 0, quantity: 1, unit: 'kg', notes: '' }],
+      ingredients: [{ ingredientId: '', quantity: 1, unit: 'kg', notes: '' }],
     },
   })
 
@@ -85,7 +85,7 @@ export default function RecipeFormPage() {
         ingredients:            existing.ingredients?.map((i: any) => ({
           ingredientId: i.ingredient?.id,
           quantity:     i.quantity,
-          unit:         i.unit,
+          unit:         i.unitOfMeasure?.abbreviation,
           notes:        i.notes,
         })) ?? [],
       })
@@ -103,7 +103,7 @@ export default function RecipeFormPage() {
       navigate('/recipes')
     },
     onError: (err: any) =>
-      enqueueSnackbar(err.response?.data?.message || 'Operation failed — backend API not yet implemented', { variant: 'error' }),
+      enqueueSnackbar(err.response?.data?.message || 'Operation failed', { variant: 'error' }),
   })
 
   return (
@@ -121,10 +121,6 @@ export default function RecipeFormPage() {
         </Typography>
         <Button startIcon={<ArrowBack />} onClick={() => navigate('/recipes')}>Back</Button>
       </Box>
-
-      <Alert severity="info" sx={{ mb: 3 }}>
-        Recipe API endpoints are not yet implemented in the backend. This form is ready for when they are added.
-      </Alert>
 
       <Box component="form" onSubmit={handleSubmit(data => mutate(data))}>
         <Grid container spacing={3}>

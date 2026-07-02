@@ -635,8 +635,8 @@ docker compose down
 | Service | URL |
 |---|---|
 | Frontend | http://localhost:80 |
-| Backend API | http://localhost:8080/api |
-| Swagger UI | http://localhost:8080/api/swagger-ui.html |
+| Backend API | http://localhost:8081/api |
+| Swagger UI | http://localhost:8081/api/swagger-ui.html |
 | PgAdmin | http://localhost:5050 (dev profile) |
 | PostgreSQL | localhost:5432 |
 

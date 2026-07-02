@@ -68,7 +68,7 @@ export default function IngredientsPage() {
     )},
     { field: 'reorderLevel', headerName: 'Reorder Level', width: 130, type: 'number' },
     { field: 'standardCost', headerName: 'Std Cost', width: 110, type: 'number',
-      valueFormatter: (val) => val ? `$${Number(val).toFixed(2)}` : '-' },
+      valueFormatter: (val) => val ? `₹${Number(val).toFixed(2)}` : '-' },
     { field: 'perishable', headerName: 'Perishable', width: 100, type: 'boolean' },
     {
       field: 'actions', headerName: 'Actions', width: 120, sortable: false,
