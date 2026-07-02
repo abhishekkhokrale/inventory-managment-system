@@ -201,7 +201,7 @@ export default function RecipeFormPage() {
                     )}
                   </Typography>
                   <Button size="small" startIcon={<Add />} onClick={() =>
-                    append({ ingredientId: 0, quantity: 1, unit: 'kg', notes: '' })
+                    append({ ingredientId: '', quantity: 1, unit: 'kg', notes: '' })
                   }>
                     Add Ingredient
                   </Button>
