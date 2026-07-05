@@ -51,7 +51,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     @Transactional(readOnly = true)
     public Recipe getRecipeById(UUID id) {
-        return recipeRepository.findById(id)
+        return recipeRepository.findByIdWithDetails(id)
             .orElseThrow(() -> new ResourceNotFoundException("Recipe", "id", id));
     }
 

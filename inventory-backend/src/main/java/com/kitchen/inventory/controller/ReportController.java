@@ -119,6 +119,7 @@ public class ReportController {
             BigDecimal opening = closing.subtract(stockIn).add(stockOut);
 
             Map<String, Object> map = new LinkedHashMap<>();
+            map.put("id", row.getIngredientId() + ":" + row.getWarehouseId());
             map.put("ingredientName", row.getIngredientName());
             map.put("category", row.getCategory());
             map.put("warehouse", row.getWarehouse());
@@ -171,6 +172,7 @@ public class ReportController {
 
         List<Map<String, Object>> content = orders.getContent().stream().map(po -> {
             Map<String, Object> map = new LinkedHashMap<>();
+            map.put("id", po.getOrderNumber());
             map.put("orderNumber", po.getOrderNumber());
             map.put("supplier", po.getSupplier() != null ? po.getSupplier().getName() : null);
             map.put("orderDate", po.getOrderDate() != null ? po.getOrderDate().toString() : null);
@@ -221,6 +223,7 @@ public class ReportController {
                 : BigDecimal.ZERO;
 
             Map<String, Object> map = new LinkedHashMap<>();
+            map.put("id", row.getIngredientId());
             map.put("ingredientName", row.getIngredientName());
             map.put("category", row.getCategory());
             map.put("totalQuantity", totalQuantity);

@@ -22,8 +22,18 @@ public interface IngredientRepository extends JpaRepository<Ingredient, UUID> {
 
     boolean existsByBarcode(String barcode);
 
-    @Query("""
+    @Query(value = """
         SELECT i FROM Ingredient i
+        JOIN FETCH i.category
+        JOIN FETCH i.unitOfMeasure
+        WHERE i.active = true
+        AND (:search IS NULL OR LOWER(i.name) LIKE :search
+             OR LOWER(i.code) LIKE :search)
+        AND (:categoryId IS NULL OR i.category.id = :categoryId)
+        AND (:storageType IS NULL OR i.storageType = :storageType)
+    """,
+    countQuery = """
+        SELECT COUNT(i) FROM Ingredient i
         WHERE i.active = true
         AND (:search IS NULL OR LOWER(i.name) LIKE :search
              OR LOWER(i.code) LIKE :search)

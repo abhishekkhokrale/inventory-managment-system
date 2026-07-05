@@ -86,7 +86,7 @@ public class PurchaseOrderController {
     @Operation(summary = "Get purchase order by ID")
     @PreAuthorize("hasAuthority('PURCHASE_READ')")
     public ResponseEntity<PurchaseOrder> getOrder(@PathVariable UUID id) {
-        PurchaseOrder order = purchaseOrderRepository.findById(id)
+        PurchaseOrder order = purchaseOrderRepository.findByIdWithDetails(id)
             .orElseThrow(() -> new ResourceNotFoundException("PurchaseOrder", "id", id));
         return ResponseEntity.ok(order);
     }

@@ -25,9 +25,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     @Transactional(readOnly = true)
     public List<Warehouse> getAllWarehouses() {
-        return warehouseRepository.findAll().stream()
-            .filter(Warehouse::isActive)
-            .toList();
+        return warehouseRepository.findAllActiveWithKitchen();
     }
 
     @Override

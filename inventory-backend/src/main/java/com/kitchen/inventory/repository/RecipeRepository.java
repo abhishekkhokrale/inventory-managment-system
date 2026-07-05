@@ -18,8 +18,16 @@ public interface RecipeRepository extends JpaRepository<Recipe, UUID> {
 
     boolean existsByCode(String code);
 
-    @Query("""
+    @Query(value = """
         SELECT r FROM Recipe r
+        JOIN FETCH r.kitchen
+        WHERE r.active = true
+        AND (:kitchenId IS NULL OR r.kitchen.id = :kitchenId)
+        AND (:search IS NULL OR LOWER(r.name) LIKE :search OR LOWER(r.code) LIKE :search)
+        AND (:published IS NULL OR r.published = :published)
+    """,
+    countQuery = """
+        SELECT COUNT(r) FROM Recipe r
         WHERE r.active = true
         AND (:kitchenId IS NULL OR r.kitchen.id = :kitchenId)
         AND (:search IS NULL OR LOWER(r.name) LIKE :search OR LOWER(r.code) LIKE :search)
@@ -31,4 +39,14 @@ public interface RecipeRepository extends JpaRepository<Recipe, UUID> {
         @Param("published") Boolean published,
         Pageable pageable
     );
+
+    @Query("""
+        SELECT DISTINCT r FROM Recipe r
+        JOIN FETCH r.kitchen
+        LEFT JOIN FETCH r.ingredients ri
+        LEFT JOIN FETCH ri.ingredient
+        LEFT JOIN FETCH ri.unitOfMeasure
+        WHERE r.id = :id
+    """)
+    Optional<Recipe> findByIdWithDetails(@Param("id") UUID id);
 }

@@ -43,8 +43,18 @@ public interface StockItemRepository extends JpaRepository<StockItem, UUID> {
     """)
     List<StockItem> findExpiringStock(@Param("expiryDate") LocalDate expiryDate);
 
-    @Query("""
+    @Query(value = """
         SELECT s FROM StockItem s
+        JOIN FETCH s.ingredient i
+        JOIN FETCH i.category
+        JOIN FETCH i.unitOfMeasure
+        JOIN FETCH s.warehouse
+        WHERE s.active = true
+        AND (:warehouseId IS NULL OR s.warehouse.id = :warehouseId)
+        AND (:ingredientId IS NULL OR s.ingredient.id = :ingredientId)
+    """,
+    countQuery = """
+        SELECT COUNT(s) FROM StockItem s
         WHERE s.active = true
         AND (:warehouseId IS NULL OR s.warehouse.id = :warehouseId)
         AND (:ingredientId IS NULL OR s.ingredient.id = :ingredientId)
@@ -65,6 +75,7 @@ public interface StockItemRepository extends JpaRepository<StockItem, UUID> {
     List<StockItem> findFEFOStock(@Param("ingredientId") UUID ingredientId);
 
     interface ValuationRow {
+        UUID getIngredientId();
         String getIngredientName();
         String getCategory();
         BigDecimal getTotalQuantity();
@@ -72,7 +83,7 @@ public interface StockItemRepository extends JpaRepository<StockItem, UUID> {
     }
 
     @Query(value = """
-        SELECT i.name AS ingredientName, c.name AS category,
+        SELECT i.id AS ingredientId, i.name AS ingredientName, c.name AS category,
                COALESCE(SUM(s.quantity_on_hand), 0) AS totalQuantity,
                COALESCE(SUM(s.quantity_on_hand * s.unit_cost), 0) AS totalValue
         FROM stock_items s
@@ -88,13 +99,14 @@ public interface StockItemRepository extends JpaRepository<StockItem, UUID> {
         UUID getIngredientId();
         String getIngredientName();
         String getCategory();
+        UUID getWarehouseId();
         String getWarehouse();
         BigDecimal getClosingStock();
         BigDecimal getValue();
     }
 
     @Query(value = """
-        SELECT i.id AS ingredientId, i.name AS ingredientName, c.name AS category, w.name AS warehouse,
+        SELECT i.id AS ingredientId, i.name AS ingredientName, c.name AS category, w.id AS warehouseId, w.name AS warehouse,
                COALESCE(SUM(s.quantity_on_hand), 0) AS closingStock,
                COALESCE(SUM(s.quantity_on_hand * s.unit_cost), 0) AS value
         FROM stock_items s
