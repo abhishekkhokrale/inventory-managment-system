@@ -15,6 +15,7 @@ interface NavItem {
   path?: string
   icon: React.ReactNode
   permission?: string
+  role?: string
   children?: NavItem[]
 }
 
@@ -38,6 +39,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'Recipes',       path: '/recipes',     icon: <Restaurant />,          permission: 'RECIPE_READ' },
   { label: 'Reports',       path: '/reports',     icon: <Assessment />,          permission: 'REPORT_VIEW' },
   { label: 'Users',         path: '/users',       icon: <People />,              permission: 'USER_READ' },
+  { label: 'Master Data',   path: '/master-data', icon: <Warehouse />,           role: 'SUPER_ADMIN' },
 ]
 
 interface SidebarProps {
@@ -51,7 +53,7 @@ export default function Sidebar({ open, onClose, drawerWidth, isMobile }: Sideba
   const theme = useTheme()
   const location = useLocation()
   const navigate = useNavigate()
-  const { hasPermission } = useAuthStore()
+  const { hasPermission, hasRole } = useAuthStore()
   const [expanded, setExpanded] = useState<string[]>(['Inventory'])
 
   const toggleExpand = (label: string) => {
@@ -66,6 +68,7 @@ export default function Sidebar({ open, onClose, drawerWidth, isMobile }: Sideba
 
   const renderNavItem = (item: NavItem, depth = 0) => {
     if (item.permission && !hasPermission(item.permission)) return null
+    if (item.role && !hasRole(item.role)) return null
 
     if (item.children) {
       const active = isGroupActive(item.children)

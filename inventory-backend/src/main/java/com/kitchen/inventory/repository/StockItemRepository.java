@@ -63,4 +63,47 @@ public interface StockItemRepository extends JpaRepository<StockItem, UUID> {
         ORDER BY s.expiryDate ASC NULLS LAST, s.receivedDate ASC
     """)
     List<StockItem> findFEFOStock(@Param("ingredientId") UUID ingredientId);
+
+    interface ValuationRow {
+        String getIngredientName();
+        String getCategory();
+        BigDecimal getTotalQuantity();
+        BigDecimal getTotalValue();
+    }
+
+    @Query(value = """
+        SELECT i.name AS ingredientName, c.name AS category,
+               COALESCE(SUM(s.quantity_on_hand), 0) AS totalQuantity,
+               COALESCE(SUM(s.quantity_on_hand * s.unit_cost), 0) AS totalValue
+        FROM stock_items s
+        JOIN ingredients i ON i.id = s.ingredient_id
+        JOIN categories c ON c.id = i.category_id
+        WHERE s.is_active = true
+        GROUP BY i.id, i.name, c.name
+        ORDER BY i.name
+        """, nativeQuery = true)
+    List<ValuationRow> getValuationReport();
+
+    interface StockSummaryRow {
+        UUID getIngredientId();
+        String getIngredientName();
+        String getCategory();
+        String getWarehouse();
+        BigDecimal getClosingStock();
+        BigDecimal getValue();
+    }
+
+    @Query(value = """
+        SELECT i.id AS ingredientId, i.name AS ingredientName, c.name AS category, w.name AS warehouse,
+               COALESCE(SUM(s.quantity_on_hand), 0) AS closingStock,
+               COALESCE(SUM(s.quantity_on_hand * s.unit_cost), 0) AS value
+        FROM stock_items s
+        JOIN ingredients i ON i.id = s.ingredient_id
+        JOIN categories c ON c.id = i.category_id
+        JOIN warehouses w ON w.id = s.warehouse_id
+        WHERE s.is_active = true
+        GROUP BY i.id, i.name, c.name, w.id, w.name
+        ORDER BY i.name
+        """, nativeQuery = true)
+    List<StockSummaryRow> getStockSummary();
 }

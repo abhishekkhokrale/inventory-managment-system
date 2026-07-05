@@ -43,4 +43,26 @@ public interface StockTransactionRepository extends JpaRepository<StockTransacti
         @Param("fromDate") LocalDateTime fromDate,
         @Param("toDate") LocalDateTime toDate
     );
+
+    interface DailyAggregateRow {
+        java.time.LocalDate getTxnDate();
+        java.math.BigDecimal getQuantity();
+        java.math.BigDecimal getCost();
+    }
+
+    @Query(value = """
+        SELECT CAST(transaction_date AS date) AS txnDate,
+               COALESCE(SUM(quantity), 0) AS quantity,
+               COALESCE(SUM(quantity * COALESCE(unit_cost, 0)), 0) AS cost
+        FROM stock_transactions
+        WHERE transaction_type IN (:types)
+        AND transaction_date BETWEEN :fromDate AND :toDate
+        GROUP BY CAST(transaction_date AS date)
+        ORDER BY CAST(transaction_date AS date)
+        """, nativeQuery = true)
+    java.util.List<DailyAggregateRow> getDailyAggregates(
+        @Param("types") java.util.List<String> types,
+        @Param("fromDate") LocalDateTime fromDate,
+        @Param("toDate") LocalDateTime toDate
+    );
 }

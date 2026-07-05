@@ -27,7 +27,7 @@ export default function PurchaseOrdersPage() {
 
   const { data, isLoading } = useQuery({
     queryKey: ['purchases', paginationModel],
-    queryFn: () => axiosInstance.get('/purchases', {
+    queryFn: () => axiosInstance.get('/purchase-orders', {
       params: { page: paginationModel.page, size: paginationModel.pageSize }
     }).then(r => r.data),
   })

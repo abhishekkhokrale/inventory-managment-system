@@ -14,11 +14,6 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import axiosInstance from '@/api/axiosInstance'
 import { useSnackbar } from 'notistack'
 
-const ROLE_NAMES = [
-  'SUPER_ADMIN', 'KITCHEN_MANAGER', 'STORE_MANAGER',
-  'PURCHASE_MANAGER', 'CHEF', 'INVENTORY_STAFF', 'AUDITOR',
-]
-
 const createSchema = z.object({
   firstName:  z.string().min(1, 'First name is required'),
   lastName:   z.string().min(1, 'Last name is required'),
@@ -64,6 +59,11 @@ export default function UserFormPage() {
     queryFn: () => axiosInstance.get(`/users/${id}`).then(r => r.data),
     enabled: isEdit,
     retry: false,
+  })
+
+  const { data: roleOptions = [] } = useQuery({
+    queryKey: ['roles'],
+    queryFn: () => axiosInstance.get('/roles').then(r => r.data),
   })
 
   const { control, handleSubmit, reset, formState: { errors } } = useForm<FormData>({
@@ -193,9 +193,9 @@ export default function UserFormPage() {
                             </Box>
                           )}
                         >
-                          {ROLE_NAMES.map(role => (
-                            <MenuItem key={role} value={role}>
-                              {role.replace(/_/g, ' ')}
+                          {roleOptions.map((role: any) => (
+                            <MenuItem key={role.id} value={role.name}>
+                              {role.name.replace(/_/g, ' ')}
                             </MenuItem>
                           ))}
                         </Select>

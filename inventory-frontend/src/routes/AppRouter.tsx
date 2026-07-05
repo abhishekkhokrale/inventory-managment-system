@@ -21,6 +21,7 @@ const RecipeFormPage     = lazy(() => import('@/features/recipe/pages/RecipeForm
 const ReportsPage        = lazy(() => import('@/features/reports/pages/ReportsPage'))
 const UsersPage          = lazy(() => import('@/pages/UsersPage'))
 const UserFormPage       = lazy(() => import('@/pages/UserFormPage'))
+const MasterDataPage     = lazy(() => import('@/features/admin/pages/MasterDataPage'))
 const ProfilePage        = lazy(() => import('@/pages/ProfilePage'))
 const NotFoundPage       = lazy(() => import('@/pages/NotFoundPage'))
 
@@ -75,6 +76,7 @@ export default function AppRouter() {
             <Route path="/users" element={<UsersPage />} />
             <Route path="/users/new" element={<UserFormPage />} />
             <Route path="/users/:id/edit" element={<UserFormPage />} />
+            <Route path="/master-data" element={<MasterDataPage />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Route>
         </Route>
