@@ -4,6 +4,7 @@ import { CircularProgress, Box } from '@mui/material'
 import MainLayout from '@/layouts/MainLayout'
 import AuthLayout from '@/layouts/AuthLayout'
 import ProtectedRoute from './ProtectedRoute'
+import PermissionRoute from './PermissionRoute'
 
 const LoginPage          = lazy(() => import('@/features/auth/pages/LoginPage'))
 const ForgotPasswordPage = lazy(() => import('@/features/auth/pages/ForgotPasswordPage'))
@@ -24,6 +25,7 @@ const UserFormPage       = lazy(() => import('@/pages/UserFormPage'))
 const MasterDataPage     = lazy(() => import('@/features/admin/pages/MasterDataPage'))
 const ProfilePage        = lazy(() => import('@/pages/ProfilePage'))
 const NotFoundPage       = lazy(() => import('@/pages/NotFoundPage'))
+const UnauthorizedPage   = lazy(() => import('@/pages/UnauthorizedPage'))
 
 const Loader = () => (
   <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
@@ -45,39 +47,59 @@ export default function AppRouter() {
         <Route element={<ProtectedRoute />}>
           <Route element={<MainLayout />}>
             <Route index element={<Navigate to="/dashboard" replace />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/unauthorized" element={<UnauthorizedPage />} />
+
+            <Route element={<PermissionRoute permission="DASHBOARD_VIEW" />}>
+              <Route path="/dashboard" element={<DashboardPage />} />
+            </Route>
 
             {/* Inventory */}
-            <Route path="/ingredients" element={<IngredientsPage />} />
-            <Route path="/ingredients/new" element={<IngredientFormPage />} />
-            <Route path="/ingredients/:id/edit" element={<IngredientFormPage />} />
-            <Route path="/stock" element={<StockLevelsPage />} />
-            <Route path="/stock/transactions" element={<StockTransactionsPage />} />
+            <Route element={<PermissionRoute permission="INGREDIENT_READ" />}>
+              <Route path="/ingredients" element={<IngredientsPage />} />
+              <Route path="/ingredients/new" element={<IngredientFormPage />} />
+              <Route path="/ingredients/:id/edit" element={<IngredientFormPage />} />
+            </Route>
+            <Route element={<PermissionRoute permission="INVENTORY_READ" />}>
+              <Route path="/stock" element={<StockLevelsPage />} />
+              <Route path="/stock/transactions" element={<StockTransactionsPage />} />
+            </Route>
 
             {/* Suppliers */}
-            <Route path="/suppliers" element={<SuppliersPage />} />
-            <Route path="/suppliers/new" element={<SupplierFormPage />} />
-            <Route path="/suppliers/:id/edit" element={<SupplierFormPage />} />
+            <Route element={<PermissionRoute permission="SUPPLIER_READ" />}>
+              <Route path="/suppliers" element={<SuppliersPage />} />
+              <Route path="/suppliers/new" element={<SupplierFormPage />} />
+              <Route path="/suppliers/:id/edit" element={<SupplierFormPage />} />
+            </Route>
 
             {/* Purchases */}
-            <Route path="/purchases" element={<PurchaseOrdersPage />} />
-            <Route path="/purchases/new" element={<PurchaseOrderFormPage />} />
-            <Route path="/purchases/:id" element={<PurchaseOrderFormPage />} />
+            <Route element={<PermissionRoute permission="PURCHASE_READ" />}>
+              <Route path="/purchases" element={<PurchaseOrdersPage />} />
+              <Route path="/purchases/new" element={<PurchaseOrderFormPage />} />
+              <Route path="/purchases/:id" element={<PurchaseOrderFormPage />} />
+            </Route>
 
             {/* Recipes */}
-            <Route path="/recipes" element={<RecipesPage />} />
-            <Route path="/recipes/new" element={<RecipeFormPage />} />
-            <Route path="/recipes/:id/edit" element={<RecipeFormPage />} />
+            <Route element={<PermissionRoute permission="RECIPE_READ" />}>
+              <Route path="/recipes" element={<RecipesPage />} />
+              <Route path="/recipes/new" element={<RecipeFormPage />} />
+              <Route path="/recipes/:id/edit" element={<RecipeFormPage />} />
+            </Route>
 
             {/* Reports */}
-            <Route path="/reports" element={<ReportsPage />} />
+            <Route element={<PermissionRoute permission="REPORT_VIEW" />}>
+              <Route path="/reports" element={<ReportsPage />} />
+            </Route>
 
             {/* Admin */}
-            <Route path="/users" element={<UsersPage />} />
-            <Route path="/users/new" element={<UserFormPage />} />
-            <Route path="/users/:id/edit" element={<UserFormPage />} />
-            <Route path="/master-data" element={<MasterDataPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
+            <Route element={<PermissionRoute permission="USER_READ" />}>
+              <Route path="/users" element={<UsersPage />} />
+              <Route path="/users/new" element={<UserFormPage />} />
+              <Route path="/users/:id/edit" element={<UserFormPage />} />
+            </Route>
+            <Route element={<PermissionRoute role="SUPER_ADMIN" />}>
+              <Route path="/master-data" element={<MasterDataPage />} />
+            </Route>
           </Route>
         </Route>
 
