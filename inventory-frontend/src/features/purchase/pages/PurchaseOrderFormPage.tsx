@@ -65,6 +65,10 @@ export default function PurchaseOrderFormPage() {
     defaultValues: {
       status: 'DRAFT',
       orderDate: new Date().toISOString().split('T')[0],
+      expectedDeliveryDate: '',
+      paymentTerms: '',
+      deliveryAddress: '',
+      remarks: '',
       items: [{ ingredientId: 0, quantity: 1, unitPrice: 0, description: '' }],
     },
   })
@@ -171,17 +175,20 @@ export default function PurchaseOrderFormPage() {
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Controller name="paymentTerms" control={control} render={({ field }) => (
-                      <TextField {...field} label="Payment Terms" fullWidth placeholder="e.g., Net 30, COD" />
+                      <TextField {...field} label="Payment Terms" fullWidth placeholder="e.g., Net 30, COD"
+                        InputLabelProps={{ shrink: true }} />
                     )} />
                   </Grid>
                   <Grid item xs={12}>
                     <Controller name="deliveryAddress" control={control} render={({ field }) => (
-                      <TextField {...field} label="Delivery Address" fullWidth multiline rows={2} />
+                      <TextField {...field} label="Delivery Address" fullWidth multiline rows={2}
+                        InputLabelProps={{ shrink: true }} />
                     )} />
                   </Grid>
                   <Grid item xs={12}>
                     <Controller name="remarks" control={control} render={({ field }) => (
-                      <TextField {...field} label="Remarks / Notes" fullWidth multiline rows={2} />
+                      <TextField {...field} label="Remarks / Notes" fullWidth multiline rows={2}
+                        InputLabelProps={{ shrink: true }} />
                     )} />
                   </Grid>
                 </Grid>

@@ -134,25 +134,25 @@ export default function UserFormPage() {
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                     <Controller name="firstName" control={control} render={({ field }) => (
-                      <TextField {...field} label="First Name *" fullWidth
+                      <TextField {...field} label="First Name *" fullWidth InputLabelProps={{ shrink: true }}
                         error={!!errors.firstName} helperText={errors.firstName?.message} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Controller name="lastName" control={control} render={({ field }) => (
-                      <TextField {...field} label="Last Name *" fullWidth
+                      <TextField {...field} label="Last Name *" fullWidth InputLabelProps={{ shrink: true }}
                         error={!!errors.lastName} helperText={errors.lastName?.message} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Controller name="email" control={control} render={({ field }) => (
-                      <TextField {...field} label="Email *" type="email" fullWidth
+                      <TextField {...field} label="Email *" type="email" fullWidth InputLabelProps={{ shrink: true }}
                         error={!!errors.email} helperText={errors.email?.message} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Controller name="phone" control={control} render={({ field }) => (
-                      <TextField {...field} label="Phone" fullWidth />
+                      <TextField {...field} label="Phone" fullWidth InputLabelProps={{ shrink: true }} />
                     )} />
                   </Grid>
                 </Grid>
@@ -165,14 +165,14 @@ export default function UserFormPage() {
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                     <Controller name="username" control={control} render={({ field }) => (
-                      <TextField {...field} label="Username *" fullWidth
+                      <TextField {...field} label="Username *" fullWidth InputLabelProps={{ shrink: true }}
                         error={!!errors.username} helperText={errors.username?.message} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Controller name="password" control={control} render={({ field }) => (
                       <TextField {...field} label={isEdit ? 'New Password (leave blank to keep)' : 'Password *'}
-                        type="password" fullWidth
+                        type="password" fullWidth InputLabelProps={{ shrink: true }}
                         error={!!errors.password} helperText={errors.password?.message} />
                     )} />
                   </Grid>

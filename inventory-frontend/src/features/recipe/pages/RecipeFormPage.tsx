@@ -58,9 +58,14 @@ export default function RecipeFormPage() {
   const { control, handleSubmit, reset, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
+      name: '',
+      code: '',
+      description: '',
+      instructions: '',
       published: false,
       yieldQuantity: 1,
       yieldUnit: 'portion',
+      servingSize: undefined,
       preparationTimeMinutes: 0,
       cookingTimeMinutes: 0,
       ingredients: [{ ingredientId: '', quantity: 1, unit: 'kg', notes: '' }],
@@ -131,20 +136,21 @@ export default function RecipeFormPage() {
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={8}>
                     <Controller name="name" control={control} render={({ field }) => (
-                      <TextField {...field} label="Recipe Name *" fullWidth
+                      <TextField {...field} label="Recipe Name *" fullWidth InputLabelProps={{ shrink: true }}
                         error={!!errors.name} helperText={errors.name?.message} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={4}>
                     <Controller name="code" control={control} render={({ field }) => (
-                      <TextField {...field} label="Code *" fullWidth
+                      <TextField {...field} label="Code *" fullWidth InputLabelProps={{ shrink: true }}
                         onChange={e => field.onChange(e.target.value.toUpperCase())}
                         error={!!errors.code} helperText={errors.code?.message} />
                     )} />
                   </Grid>
                   <Grid item xs={12}>
                     <Controller name="description" control={control} render={({ field }) => (
-                      <TextField {...field} label="Description" fullWidth multiline rows={2} />
+                      <TextField {...field} label="Description" fullWidth multiline rows={2}
+                        InputLabelProps={{ shrink: true }} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={4}>
@@ -162,7 +168,8 @@ export default function RecipeFormPage() {
                   </Grid>
                   <Grid item xs={12} sm={4}>
                     <Controller name="servingSize" control={control} render={({ field }) => (
-                      <TextField {...field} label="Serving Size" type="number" fullWidth inputProps={{ min: 0, step: 0.01 }} />
+                      <TextField {...field} label="Serving Size" type="number" fullWidth inputProps={{ min: 0, step: 0.01 }}
+                        InputLabelProps={{ shrink: true }} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -182,7 +189,7 @@ export default function RecipeFormPage() {
                   <Grid item xs={12}>
                     <Controller name="instructions" control={control} render={({ field }) => (
                       <TextField {...field} label="Preparation Instructions" fullWidth multiline rows={5}
-                        placeholder="Step-by-step instructions…" />
+                        placeholder="Step-by-step instructions…" InputLabelProps={{ shrink: true }} />
                     )} />
                   </Grid>
                 </Grid>

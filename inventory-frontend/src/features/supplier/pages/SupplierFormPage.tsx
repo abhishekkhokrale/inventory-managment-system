@@ -46,7 +46,11 @@ export default function SupplierFormPage() {
 
   const { control, handleSubmit, reset, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
-    defaultValues: { leadTimeDays: 7, rating: 0 },
+    defaultValues: {
+      name: '', code: '', contactPerson: '', email: '', phone: '', address: '', city: '',
+      country: '', taxNumber: '', paymentTerms: '', website: '', notes: '',
+      leadTimeDays: 7, rating: 0,
+    },
   })
 
   useEffect(() => {
@@ -109,36 +113,36 @@ export default function SupplierFormPage() {
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                     <Controller name="name" control={control} render={({ field }) => (
-                      <TextField {...field} label="Supplier Name *" fullWidth
+                      <TextField {...field} label="Supplier Name *" fullWidth InputLabelProps={{ shrink: true }}
                         error={!!errors.name} helperText={errors.name?.message} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Controller name="code" control={control} render={({ field }) => (
-                      <TextField {...field} label="Code *" fullWidth
+                      <TextField {...field} label="Code *" fullWidth InputLabelProps={{ shrink: true }}
                         onChange={e => field.onChange(e.target.value.toUpperCase())}
                         error={!!errors.code} helperText={errors.code?.message} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Controller name="contactPerson" control={control} render={({ field }) => (
-                      <TextField {...field} label="Contact Person" fullWidth />
+                      <TextField {...field} label="Contact Person" fullWidth InputLabelProps={{ shrink: true }} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Controller name="email" control={control} render={({ field }) => (
-                      <TextField {...field} label="Email" fullWidth type="email"
+                      <TextField {...field} label="Email" fullWidth type="email" InputLabelProps={{ shrink: true }}
                         error={!!errors.email} helperText={errors.email?.message} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Controller name="phone" control={control} render={({ field }) => (
-                      <TextField {...field} label="Phone" fullWidth />
+                      <TextField {...field} label="Phone" fullWidth InputLabelProps={{ shrink: true }} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Controller name="website" control={control} render={({ field }) => (
-                      <TextField {...field} label="Website" fullWidth />
+                      <TextField {...field} label="Website" fullWidth InputLabelProps={{ shrink: true }} />
                     )} />
                   </Grid>
                 </Grid>
@@ -151,22 +155,22 @@ export default function SupplierFormPage() {
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
                     <Controller name="address" control={control} render={({ field }) => (
-                      <TextField {...field} label="Street Address" fullWidth />
+                      <TextField {...field} label="Street Address" fullWidth InputLabelProps={{ shrink: true }} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Controller name="city" control={control} render={({ field }) => (
-                      <TextField {...field} label="City" fullWidth />
+                      <TextField {...field} label="City" fullWidth InputLabelProps={{ shrink: true }} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Controller name="country" control={control} render={({ field }) => (
-                      <TextField {...field} label="Country" fullWidth />
+                      <TextField {...field} label="Country" fullWidth InputLabelProps={{ shrink: true }} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Controller name="taxNumber" control={control} render={({ field }) => (
-                      <TextField {...field} label="Tax Number / GST" fullWidth />
+                      <TextField {...field} label="Tax Number / GST" fullWidth InputLabelProps={{ shrink: true }} />
                     )} />
                   </Grid>
                 </Grid>
@@ -179,18 +183,21 @@ export default function SupplierFormPage() {
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                     <Controller name="paymentTerms" control={control} render={({ field }) => (
-                      <TextField {...field} label="Payment Terms" fullWidth placeholder="e.g., Net 30, COD" />
+                      <TextField {...field} label="Payment Terms" fullWidth placeholder="e.g., Net 30, COD"
+                        InputLabelProps={{ shrink: true }} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Controller name="leadTimeDays" control={control} render={({ field }) => (
                       <TextField {...field} label="Lead Time" fullWidth type="number"
+                        InputLabelProps={{ shrink: true }}
                         InputProps={{ endAdornment: <InputAdornment position="end">days</InputAdornment> }} />
                     )} />
                   </Grid>
                   <Grid item xs={12}>
                     <Controller name="notes" control={control} render={({ field }) => (
-                      <TextField {...field} label="Notes" fullWidth multiline rows={3} />
+                      <TextField {...field} label="Notes" fullWidth multiline rows={3}
+                        InputLabelProps={{ shrink: true }} />
                     )} />
                   </Grid>
                 </Grid>

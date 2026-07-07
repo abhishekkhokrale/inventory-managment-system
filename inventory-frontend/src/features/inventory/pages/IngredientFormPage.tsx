@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -13,6 +13,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { ingredientsApi } from '@/api/ingredients.api'
 import axiosInstance from '@/api/axiosInstance'
 import { useSnackbar } from 'notistack'
+import dayjs from 'dayjs'
 
 const schema = z.object({
   name:              z.string().min(1, 'Name is required'),
@@ -55,9 +56,15 @@ export default function IngredientFormPage() {
     enabled: isEdit,
   })
 
-  const { control, handleSubmit, reset, formState: { errors } } = useForm<FormData>({
+  const [expiryDate, setExpiryDate] = useState('')
+
+  const { control, handleSubmit, reset, setValue, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
-    defaultValues: { perishable: true, trackBatch: true, trackExpiry: true },
+    defaultValues: {
+      name: '', code: '', description: '', categoryId: '', unitOfMeasureId: '',
+      storageType: '', barcode: '', allergens: '',
+      perishable: true, trackBatch: true, trackExpiry: true,
+    },
   })
 
   useEffect(() => {
@@ -80,8 +87,26 @@ export default function IngredientFormPage() {
         trackBatch: existing.trackBatch,
         trackExpiry: existing.trackExpiry,
       })
+      setExpiryDate(existing.shelfLifeDays
+        ? dayjs().add(existing.shelfLifeDays, 'day').format('YYYY-MM-DD')
+        : '')
     }
   }, [existing, reset])
+
+  const handleExpiryDateChange = (value: string) => {
+    setExpiryDate(value)
+    if (value) {
+      const days = dayjs(value).startOf('day').diff(dayjs().startOf('day'), 'day')
+      setValue('shelfLifeDays', days > 0 ? days : undefined, { shouldValidate: true })
+    } else {
+      setValue('shelfLifeDays', undefined, { shouldValidate: true })
+    }
+  }
+
+  const handleShelfLifeDaysChange = (value: string) => {
+    const days = Number(value)
+    setExpiryDate(days > 0 ? dayjs().add(days, 'day').format('YYYY-MM-DD') : '')
+  }
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: FormData) =>
@@ -119,19 +144,23 @@ export default function IngredientFormPage() {
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                     <Controller name="name" control={control} render={({ field }) => (
-                      <TextField {...field} label="Ingredient Name *" fullWidth error={!!errors.name} helperText={errors.name?.message} />
+                      <TextField {...field} label="Ingredient Name *" fullWidth
+                        InputLabelProps={{ shrink: true }}
+                        error={!!errors.name} helperText={errors.name?.message} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Controller name="code" control={control} render={({ field }) => (
                       <TextField {...field} label="Code *" fullWidth
+                        InputLabelProps={{ shrink: true }}
                         onChange={e => field.onChange(e.target.value.toUpperCase())}
                         error={!!errors.code} helperText={errors.code?.message} />
                     )} />
                   </Grid>
                   <Grid item xs={12}>
                     <Controller name="description" control={control} render={({ field }) => (
-                      <TextField {...field} label="Description" fullWidth multiline rows={3} />
+                      <TextField {...field} label="Description" fullWidth multiline rows={3}
+                        InputLabelProps={{ shrink: true }} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -173,8 +202,21 @@ export default function IngredientFormPage() {
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="Expiry Date"
+                      type="date"
+                      fullWidth
+                      value={expiryDate}
+                      onChange={e => handleExpiryDateChange(e.target.value)}
+                      InputLabelProps={{ shrink: true }}
+                      helperText="Pick a date to auto-fill shelf life, or fill shelf life below instead"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
                     <Controller name="shelfLifeDays" control={control} render={({ field }) => (
                       <TextField {...field} label="Shelf Life (days)" fullWidth type="number"
+                        InputLabelProps={{ shrink: true }}
+                        onChange={e => { field.onChange(e); handleShelfLifeDaysChange(e.target.value) }}
                         InputProps={{ endAdornment: <InputAdornment position="end">days</InputAdornment> }} />
                     )} />
                   </Grid>
@@ -188,33 +230,35 @@ export default function IngredientFormPage() {
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={4}>
                     <Controller name="reorderLevel" control={control} render={({ field }) => (
-                      <TextField {...field} label="Reorder Level" fullWidth type="number" />
+                      <TextField {...field} label="Reorder Level" fullWidth type="number" InputLabelProps={{ shrink: true }} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={4}>
                     <Controller name="minimumStock" control={control} render={({ field }) => (
-                      <TextField {...field} label="Minimum Stock" fullWidth type="number" />
+                      <TextField {...field} label="Minimum Stock" fullWidth type="number" InputLabelProps={{ shrink: true }} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={4}>
                     <Controller name="maximumStock" control={control} render={({ field }) => (
-                      <TextField {...field} label="Maximum Stock" fullWidth type="number" />
+                      <TextField {...field} label="Maximum Stock" fullWidth type="number" InputLabelProps={{ shrink: true }} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Controller name="standardCost" control={control} render={({ field }) => (
                       <TextField {...field} label="Standard Cost" fullWidth type="number"
+                        InputLabelProps={{ shrink: true }}
                         InputProps={{ startAdornment: <InputAdornment position="start">₹</InputAdornment> }} />
                     )} />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Controller name="barcode" control={control} render={({ field }) => (
-                      <TextField {...field} label="Barcode" fullWidth />
+                      <TextField {...field} label="Barcode" fullWidth InputLabelProps={{ shrink: true }} />
                     )} />
                   </Grid>
                   <Grid item xs={12}>
                     <Controller name="allergens" control={control} render={({ field }) => (
-                      <TextField {...field} label="Allergens" fullWidth placeholder="e.g., Gluten, Dairy, Nuts" />
+                      <TextField {...field} label="Allergens" fullWidth placeholder="e.g., Gluten, Dairy, Nuts"
+                        InputLabelProps={{ shrink: true }} />
                     )} />
                   </Grid>
                 </Grid>
