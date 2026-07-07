@@ -23,6 +23,7 @@ const ReportsPage        = lazy(() => import('@/features/reports/pages/ReportsPa
 const UsersPage          = lazy(() => import('@/pages/UsersPage'))
 const UserFormPage       = lazy(() => import('@/pages/UserFormPage'))
 const MasterDataPage     = lazy(() => import('@/features/admin/pages/MasterDataPage'))
+const RolePermissionsPage = lazy(() => import('@/features/admin/pages/RolePermissionsPage'))
 const ProfilePage        = lazy(() => import('@/pages/ProfilePage'))
 const NotFoundPage       = lazy(() => import('@/pages/NotFoundPage'))
 const UnauthorizedPage   = lazy(() => import('@/pages/UnauthorizedPage'))
@@ -99,6 +100,7 @@ export default function AppRouter() {
             </Route>
             <Route element={<PermissionRoute role="SUPER_ADMIN" />}>
               <Route path="/master-data" element={<MasterDataPage />} />
+              <Route path="/role-permissions" element={<RolePermissionsPage />} />
             </Route>
           </Route>
         </Route>

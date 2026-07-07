@@ -40,6 +40,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'Reports',       path: '/reports',     icon: <Assessment />,          permission: 'REPORT_VIEW' },
   { label: 'Users',         path: '/users',       icon: <People />,              permission: 'USER_READ' },
   { label: 'Master Data',   path: '/master-data', icon: <Warehouse />,           role: 'SUPER_ADMIN' },
+  { label: 'Role Permissions', path: '/role-permissions', icon: <People />,      role: 'SUPER_ADMIN' },
 ]
 
 interface SidebarProps {
